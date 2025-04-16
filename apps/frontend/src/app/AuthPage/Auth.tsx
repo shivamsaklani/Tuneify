@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "../components/Button";
 import { SpotifyIcon } from "../components/Spotify";
+import MusicIcon from "@/app/assets/icons/Music.svg";
 export const AuthPage =()=>{
 
     return(
@@ -9,7 +10,11 @@ export const AuthPage =()=>{
       
 
          <div className="flex font-arial flex-col items-center">
-          <h1 className="sm:text-4xl text-xl ">Listen your Music</h1>
+          <div className=" gap-2 flex justify-center items-center">
+            <MusicIcon className="sm:size-10 size-5"/>
+            <span className="sm:text-4xl  ">Listen your Music</span>
+            <MusicIcon className="sm:size-10 size-5"/>
+            </div>
           <span className="text-sm sm:text-lg ">According to your mood</span>
          </div>
          <hr className="w-full h-2 text-secondary"/>
