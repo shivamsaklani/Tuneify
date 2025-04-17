@@ -1,22 +1,11 @@
 "use client";
-import axios from "axios";
 import { Button } from "../components/Button";
 import { SpotifyIcon } from "../components/Spotify";
 import MusicIcon from "@/app/assets/icons/Music.svg";
-
-const Authorization = async () => {
-  // const clientId= process.env.NEXT_PUBLIC_ClientID;
-  // const redirectUrl = process.env.NEXT_PUBLIC_RedirectURL;
-  // const apiUrl= "https://accounts.spotify.com/authorize/";
-  // var scope = ["streaming",
-  // "user-read-email",
-  // "user-read-private"];
-
-  // window.location.href = `${apiUrl}?client_id=${clientId}&redirect_uri=${redirectUrl}&scope=${scope.join(" ")}&response_type=token&show_daialog=true`;
-  window.location.href = "/api/v1/spotify/authorize";
-
-}
 export const AuthPage = () => {
+  const Authorization = async () => {
+    window.location.href = "/api/v1/spotify/authorize";  
+ }
 
   return (
     <div className="flex bg-radial-[at_50%_75%] from-primary to-secondary/30 justify-center items-center bg-primary min-h-screen px-4">

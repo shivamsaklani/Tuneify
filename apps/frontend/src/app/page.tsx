@@ -1,7 +1,9 @@
-import { AuthPage } from "./AuthPage/Auth";
+import Dashboard from "./Dashboard/page";
 export default function Home() {
   return (<>
-    <AuthPage/>
+      <div>
+        <Dashboard/>
+      </div>
     </>
   )
 }
