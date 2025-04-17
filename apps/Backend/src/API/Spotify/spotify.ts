@@ -8,17 +8,18 @@ dotenv.config();
 const router = Router();
 const ClientID = process.env.ClientID;
 const ClientKey = process.env.ClientKey;
-const RedirectURL = process.env.RedirectURL;
+const RedirectURI = process.env.RedirectURL;
 var scope = "streaming \
                user-read-email \
                user-read-private";
 router.get("/authorize", (req: Request, res: Response) => {
     var state = generateRandomString(16);
+    console.log("Request Catch");
     var auth_query_parameters = new URLSearchParams({
         response_type: "code",
         client_id: ClientID,
         scope: scope,
-        redirect_uri: RedirectURL,
+        redirect_uri: RedirectURI,
         state: state
     });
 
@@ -34,7 +35,7 @@ router.get('/auth/callback', async (req:Request, res:Response) => {
       url: 'https://accounts.spotify.com/api/token',
       data: qs.stringify({
         code: code,
-        redirect_uri: RedirectURL,
+        redirect_uri: RedirectURI,
         grant_type: 'authorization_code'
       }),
       headers: {
