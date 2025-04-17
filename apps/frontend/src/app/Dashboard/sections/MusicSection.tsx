@@ -1,7 +1,14 @@
+"use client";
+import {motion} from "motion/react";
 export const MusicSection=()=>{
     return(
-        <section className="min-h-md h-full bg-green-300 flex justify-center items-center">
-            Main body
+   
+        <motion.div className="grid h-full w-full overflow-hidden">
+          <section className="h-full text-white bg-black/40 rounded-md flex justify-center items-center">
+         music section
         </section>
+        </motion.div>
+       
+       
     )
 }
