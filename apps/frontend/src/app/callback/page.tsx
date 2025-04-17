@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../redux/features/loginSlice";
+import { Animate } from "./animate";
 
 export default function Callback() {
   const router = useRouter();
@@ -16,11 +17,16 @@ export default function Callback() {
     if (token) {
       localStorage.setItem("token", token);
       dispatch(loginSuccess(token));
-      router.push("/Dashboard");
+      setTimeout(() => {
+        router.push("/Dashboard");
+      }, 4000); 
     } else {
-      router.push("/AuthPage");
+      setTimeout(() => {
+        router.push("/AuthPage");
+      }, 4000); 
+      
     }
-  }, []);
+  }, [router,searchParams,dispatch]);
 
-  return <div>Redirecting...</div>;
+  return <Animate/>;
 }
