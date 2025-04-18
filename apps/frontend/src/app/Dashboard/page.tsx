@@ -9,7 +9,7 @@ export default function Dashboard(){
 
     return(
         <>
-        { (isAuthenticated)? <div>
+        { (isAuthenticated )? <div>
             <MainBody/>
            
            </div>:

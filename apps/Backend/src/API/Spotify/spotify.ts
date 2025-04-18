@@ -25,7 +25,8 @@ router.get("/authorize", (req: Request, res: Response) => {
         client_id: ClientID,
         scope: scope,
         redirect_uri: RedirectURI,
-        state: state
+        state: state,
+        show_dialog:"true",
     });
 
     res.redirect('https://accounts.spotify.com/authorize/?' + auth_query_parameters.toString());
