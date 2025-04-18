@@ -13,16 +13,15 @@ export default function Callback() {
 
   useEffect(() => {
     const token = searchParams.get("token");
-
-    if (token) {
-      localStorage.setItem("token", token);
-      dispatch(loginSuccess(token));
+    const refresh_token= searchParams.get("refresh_token");
+    if (token && refresh_token) {
+      dispatch(loginSuccess({token:token,refresh_token:refresh_token}));
       setTimeout(() => {
         router.push("/Dashboard");
       }, 4000); 
     } else {
       setTimeout(() => {
-        router.push("/AuthPage");
+        router.push("/");
       }, 4000); 
       
     }

@@ -1,4 +1,4 @@
-const { Router } = require("express");
+import { Router }from "express";
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import generateRandomString from "./Generate";
@@ -17,7 +17,8 @@ var scope = "streaming \
                 user-read-currently-playing \
                 user-library-read \
                 user-read-recently-played \
-                user-follow-read";
+                user-follow-read \
+                playlist-read-private";
 router.get("/authorize", (req: Request, res: Response) => {
     var state = generateRandomString(16);
     var auth_query_parameters = new URLSearchParams({
@@ -52,15 +53,44 @@ router.get('/auth/callback', async (req:Request, res:Response) => {
     try {
       const response = await axios(authOptions);
       const access_token = response.data.access_token;
+      const refresh_token=response.data.refresh_token;
       req.session.access_token = access_token;
-      req.session.refresh_token = response.data.refresh_token;
-      res.redirect(`/callback?token=${access_token}`);
+      req.session.refresh_token = refresh_token;// think to remove it later
+      res.redirect(`/callback?token=${access_token}&refresh_token=${refresh_token}`);
     } catch (error) {
       console.error('Error getting token:', error);
       res.status(500).send('Authentication failed');
     }
   });
   
+
+router.get('/auth/refresh_token',async(req:Request,res:Response)=>{
+  const refresh_token= req.query.refresh_token as string;
+  console.log(refresh_token);
+  const authHeader = Buffer.from(`${ClientID}:${ClientKey}`).toString('base64');
+  if(!refresh_token) return;
+  try {
+    const params = new URLSearchParams();
+    params.append('grant_type', 'refresh_token');
+    params.append('refresh_token', refresh_token);
+     const GenerateNewtoken = await axios.post("https://accounts.spotify.com/api/token",params,{
+      headers:{
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Basic ${authHeader}`,
+      }
+     });
+     res.status(200).json({
+      token:GenerateNewtoken.data.access_token,
+      new_refresh_token:GenerateNewtoken.data.refresh_token || refresh_token
+     });
+     return;
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error");
+    return;
+  }
+
+});
 
 router.get("/auth", (req: Request, res: Response) => {
     const token = req.session.access_token;

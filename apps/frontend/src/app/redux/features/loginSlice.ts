@@ -2,12 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AuthState {
   token: string | null;
+  refresh_token: string | null;
   isAuthenticated: boolean;
 }
 
 const initialState: AuthState = {
-
-  token: typeof window !== "undefined" ? localStorage.getItem("token") : null,
+  token: null,
+  refresh_token: null,
   isAuthenticated: false,
 };
 
@@ -15,14 +16,17 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    loginSuccess(state, action: PayloadAction<string>) {
-      state.token = action.payload;
+    loginSuccess(
+      state,
+      action: PayloadAction<{ token: string; refresh_token: string }>
+    ) {
+      state.token = action.payload.token;
+      state.refresh_token = action.payload.refresh_token;
       state.isAuthenticated = true;
-      localStorage.setItem("token", action.payload);
     },
     logout(state) {
       state.token = null;
-      localStorage.removeItem("token");
+      state.refresh_token = null;
       state.isAuthenticated = false;
     },
   },

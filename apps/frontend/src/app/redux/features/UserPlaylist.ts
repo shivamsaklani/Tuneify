@@ -1,20 +1,19 @@
+import { PlaylistItem, SelectedPlaylist } from "@/types/GlobalTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// Define what a single playlist object looks like
-interface PlaylistItem {
-  id: string;
-  name: string;
-  // Add more properties as needed
-}
+
 
 interface UserPlaylist {
   playlist: PlaylistItem[];
-  selectedplaylist: string;
+  selectedplaylist: SelectedPlaylist;
 }
 
 const initialState: UserPlaylist = {
   playlist: [],
-  selectedplaylist: '',
+  selectedplaylist:{
+    id:'',
+    name:''
+  },
 };
 
 const userPlaylistSlice = createSlice({
@@ -22,10 +21,11 @@ const userPlaylistSlice = createSlice({
   initialState,
   reducers: {
     addplaylist(state, action: PayloadAction<PlaylistItem[]>) {
-      state.playlist = action.payload;
+  state.playlist = action.payload;
     },
-    selectplaylist(state, action: PayloadAction<string>) {
-      state.selectedplaylist = action.payload;
+    selectplaylist(state, action: PayloadAction<SelectedPlaylist>) {
+      state.selectedplaylist.id = action.payload.id;
+      state.selectedplaylist.name=action.payload.name;
     }
   }
 });

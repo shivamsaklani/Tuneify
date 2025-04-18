@@ -1,7 +1,7 @@
 import Image, { StaticImageData } from "next/image";
 
 type ItemsProps = {
-  src?: StaticImageData;
+  src?: string;
   title?: string;
 };
 
@@ -9,7 +9,7 @@ export const Items = ({ src, title }: ItemsProps) => {
   return (
     <div className="flex items-center gap-3">
       {src && (
-        <Image
+        <img
           src={src}
           alt={title || "Image"}
           width={40}

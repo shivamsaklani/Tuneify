@@ -6,7 +6,6 @@ import { MainBody } from "./sections/MainBody";
 export default function Dashboard(){
   
     const {isAuthenticated} = useSelector((state: RootState) => state.auth);
-
     return(
         <>
         { (isAuthenticated )? <div>

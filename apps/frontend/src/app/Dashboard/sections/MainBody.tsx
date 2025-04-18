@@ -3,8 +3,57 @@ import { Header } from "./Header";
 import { MusicSection } from "./MusicSection";
 import { Sidebar } from "./Sidebar";
 import { MusicPlayer } from "./MusicPlayer";
+import { useEffect} from "react";
+import axios from "axios";
+import {useDispatch  , useSelector } from "react-redux";
+import { RootState } from "@/app/redux/store";
+import { addUser } from "@/app/redux/features/UserInfo";
+import { loginSuccess } from "@/app/redux/features/loginSlice";
 
 export const MainBody = () => {
+const dispatch = useDispatch();
+const token =useSelector((state:RootState)=>state.auth.token);
+const refresh_token = useSelector((state:RootState)=>state.auth.refresh_token);
+
+  useEffect(() => {
+
+    if (!token) return;
+
+    const fetchUserInfo = async () => {
+      try {
+        const { data } = await axios.get("https://api.spotify.com/v1/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const user = {
+          name: data.display_name,
+          email: data.email,
+          id: data.id,
+        };
+
+        dispatch(
+          addUser(user)
+        );
+
+       
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+     
+    };
+    fetchUserInfo();
+  }, [dispatch]);
+
+  useEffect(()=>{
+   if(!token) return;
+   const GenerateNewToken = async ()=>{
+      const NewToken = await axios.get(`http://localhost:3000/api/v1/spotify/auth/refresh_token?refresh_token=${refresh_token}`);
+      console.log(NewToken.data);
+      dispatch(loginSuccess({token:NewToken.data.token,refresh_token:NewToken.data.new_refresh_token}));
+   }
+   GenerateNewToken();
+  },[dispatch]);
   return (
     <div className="bg-primary h-screen flex flex-col">
       <Header />

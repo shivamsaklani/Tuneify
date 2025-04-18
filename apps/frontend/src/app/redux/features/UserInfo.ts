@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type UserInfo={
     name?:string,
@@ -17,10 +17,10 @@ const UserInfo = createSlice({
     name:"userInfo",
     initialState:initialState,
     reducers:{
-        addUser(state,action){
-            state.name=action.payload,
-            state.email=action.payload,
-            state.id=action.payload;
+        addUser(state,action: PayloadAction<UserInfo>){
+            state.name=action.payload.name,
+            state.email=action.payload.email,
+            state.id=action.payload.id;
         }
     }
 });
