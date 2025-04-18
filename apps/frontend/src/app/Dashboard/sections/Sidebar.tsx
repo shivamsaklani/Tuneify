@@ -1,7 +1,6 @@
-import { GroupItems } from "@/app/components/GroupItems"
+import { PlayListItems } from "@/app/components/PlayListItems"
 import { Items } from "@/app/components/Items"
 import { TvIcon } from "lucide-react"
-import image from "@/app/assets/images/ab67616d00001e02eb2a87031edeb0be809c48aa.jpeg";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/redux/store";
 import { PlaylistItem } from "@/types/GlobalTypes";
@@ -9,6 +8,7 @@ import { useEffect } from "react";
 import { addplaylist } from "@/app/redux/features/UserPlaylist";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const Sidebar=()=>{
   const dispatch = useDispatch();
@@ -48,26 +48,36 @@ export const Sidebar=()=>{
   },[token, dispatch, AllPlaylist.length]);
  
     return(
-   
-        <div className="w-full sm:grid hidden  h-full bg-black/40 rounded-md overflow-hidden">
-        
-        <GroupItems title="Your PlayList" icon={TvIcon} scrollable>
-      <div className="flex justify-start">
-      <ul className="space-y-3">
-          {AllPlaylist.map((item,index)=>(
-            <div className="text-white" key={index}>
-              <h1>{item.id}</h1>
-              <h2>{item.name}</h2>
-              <h2>{item.images.map((image,idx)=>(
-                <Items key={idx} title={item.name} src={image.url}/>
-              ))}</h2>
-            </div>
-          )
-        )}
-        </ul>
+      <>
+      <div className="flex flex-col">
+       <div className="flex text-gray-200 pb-5 justify-center items-center gap-2">
+          <span >
+           <TvIcon />
+          </span>
+     <h1 className="text-lg font-semibold">PlayList</h1>
       </div>
-       
-        </GroupItems>
-      </div>
+    
+    <ScrollArea className="w-full sm:grid hidden pt-5 h-full bg-black/40 rounded-md">
+     
+      <div>
+      <PlayListItems>
+          <ul className="space-y-3">
+            {AllPlaylist.map((item, index) => (
+              <div className="text-white" key={index}>
+                <h2>{item.name}</h2>
+                <h2>
+                  {item.images.map((image, idx) => (
+                    <Items key={idx} title={item.name} src={image.url} />
+                  ))}
+                </h2>
+              </div>
+            ))}
+          </ul>
+      </PlayListItems>
+    </div>
+    </ScrollArea>
+    </div>
+    </>
+    
     )
 }

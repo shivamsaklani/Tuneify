@@ -15,3 +15,11 @@ export interface PlaylistItem {
     // Add more properties as needed
   }
  
+export interface TrackItemType{
+  onclick:()=>void;
+  idx:number;
+  img?:string;
+  title:string;
+  Album:string;
+  duration:number;
+}
