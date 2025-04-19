@@ -21,7 +21,7 @@ export interface Album{
 export interface TrackItemType{
   id:string;
   href:string;
-  img?:string;
+  img:string;
   name:string;
   Album:Album;
   date:string;

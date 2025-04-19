@@ -7,7 +7,6 @@ import { useScroll, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { Timer } from "lucide-react";
 import { TrackItem } from "@/app/components/TrackItem";
-import { useDispatch } from "react-redux";
 import { TrackItemType } from "@/types/GlobalTypes";
 import axios from "axios";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -43,6 +42,7 @@ response.data.tracks.items.forEach((item: any) => {
   const album = track.album;
 
   const trackObj: TrackItemType = {
+    img: album.images[0].url,
     id: track.id,
     href: track.href,
     name: track.name,
@@ -73,10 +73,10 @@ setTrack(NewTrack);
           <section className="h-full pb-5 text-white bg-black/40 rounded-md overflow-auto flex flex-col" ref={scrollRef}>
   <ScrollArea className="w-full h-full overflow-auto">
     <div className="bg-gradient-to-br from-purple-500 shadow-md shadow-gray-950 to-blue-500 pt-10 px-3 pb-3 w-full">
-      <div className="flex flex-rows px-3 gap-10">
+      <div className="flex px-3 gap-10">
         <div className="flex">
           {(img)?
-          <img src={img} className="size-40 shadow-lg shadow-gray-950 rounded-md" alt="Profile" />:
+          <img src={img} className="sm:size-40 size-32 shadow-lg shadow-gray-950 rounded-md" alt="Profile" />:
           <Skeleton className="size-40 shadow-lg shadow-gray-950 rounded-md"></Skeleton>}
         </div>
         <div className="flex items-start justify-center flex-col">
@@ -103,20 +103,34 @@ setTrack(NewTrack);
 
     {/* List of music tracks */}
     <div className="px-5">
-      <div className="flex pb-5 justify-between flex-rows">
-        <div className="flex gap-5">
-        <div className="flex">#</div>
-        <div className="flex">title</div>
-        </div>
-        <div className="flex">Album</div>
-        <div className="flex"><Timer /></div>
+  <div className="flex pb-5 justify-between items-center gap-4 overflow-hidden text-gray-400 text-sm">
+    <div className="flex items-center gap-5 overflow-hidden flex-1 min-w-0">
+      <div className="w-5 shrink-0">#</div>
+      <div className="overflow-hidden text-ellipsis whitespace-nowrap min-w-0">
+        Title
       </div>
+    </div>
+
+    <div className="overflow-hidden text-ellipsis whitespace-nowrap w-40">
+      Album
+    </div>
+
+    <div className="overflow-hidden md:flex hidden text-ellipsis whitespace-nowrap w-28">
+      Date
+    </div>
+
+    <div className="w-14 px-5 text-right">
+      <Timer />
+    </div>
+ 
+</div>
+
       <div>
         {(Track)?
             Track.map((item,idx)=>(
                 <div key={idx}>
 
-                <TrackItem id={item.id} name={item.name} Album={item.Album} date={item.date} duration={item.duration} img={item.img} href={item.href}  />
+                <TrackItem index={idx} id={item.id} name={item.name} Album={item.Album} date={item.date} duration={item.duration} img={item.img} href={item.href}  />
                 </div>
             )):<Skeleton count={5} className="h-8 w-full flex gap-2"></Skeleton>
         }
