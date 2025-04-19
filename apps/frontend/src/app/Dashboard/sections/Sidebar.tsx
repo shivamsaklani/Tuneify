@@ -3,30 +3,34 @@ import { Items } from "@/app/components/Items"
 import { TvIcon } from "lucide-react"
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/redux/store";
-import { PlaylistItem } from "@/types/GlobalTypes";
+import { PlaylistItem, SelectedPlaylist } from "@/types/GlobalTypes";
 import { useEffect } from "react";
-import { addplaylist } from "@/app/redux/features/UserPlaylist";
+import { addplaylist, selectplaylist } from "@/app/redux/features/UserPlaylist";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
+import { setLoading } from "@/app/redux/features/Loading";
 
 export const Sidebar=()=>{
   const dispatch = useDispatch();
   const AllPlaylist: PlaylistItem[] = useSelector((state: RootState) => state.userPlaylist.playlist);
   const SelectedPlaylist = useSelector((state:RootState)=>state.userPlaylist.selectedplaylist);
   const token = useSelector((state:RootState)=> state.auth.token);
-
+  const CurrentPlayList = (name:string,id:string)=>{
+    dispatch(selectplaylist({name:name,id:id}));
+  }
 
   useEffect(()=>{
     const UserPlaylist = async()=>{
-
-      const response= await axios.get("https://api.spotify.com/v1/me/playlists",{
-        headers:{
-          Authorization: `Bearer ${token}`,
-        }
-  
-      });
-      const playlist= response.data.items.map((item:PlaylistItem)=>(
+     try {
+       const response= await axios.get("https://api.spotify.com/v1/me/playlists",{
+         headers:{
+           Authorization: `Bearer ${token}`,
+         }
+   
+       });
+       const playlist= response.data.items.map((item:PlaylistItem)=>(
         {
           name:item.name,
           id:item.id,
@@ -40,16 +44,25 @@ export const Sidebar=()=>{
         }
       ));
       dispatch(addplaylist(playlist));
+      dispatch(setLoading(false));
+      dispatch(selectplaylist({
+        name:playlist[0].name,
+        id:playlist[0].id
+      }));
+     } catch (error) {
+        console.log(error);
+     }
+    
       
     }
     UserPlaylist();
-
     
   },[token, dispatch, AllPlaylist.length]);
  
     return(
       <>
-      <div className="flex flex-col">
+     {(AllPlaylist)?
+    <div className="flex flex-col">
        <div className="flex text-gray-200 pb-5 justify-center items-center gap-2">
           <span >
            <TvIcon />
@@ -61,22 +74,18 @@ export const Sidebar=()=>{
      
       <div>
       <PlayListItems>
-          <ul className="space-y-3">
+          <div className="flex flex-col  space-y-3">
             {AllPlaylist.map((item, index) => (
-              <div className="text-white" key={index}>
-                <h2>{item.name}</h2>
-                <h2>
-                  {item.images.map((image, idx) => (
-                    <Items key={idx} title={item.name} src={image.url} />
-                  ))}
-                </h2>
-              </div>
+              <Items selected onclick={()=>CurrentPlayList(item.name,item.id)} id={item.id} key={index} title={item.name} />
             ))}
-          </ul>
+          </div>
       </PlayListItems>
     </div>
     </ScrollArea>
-    </div>
+    </div>:
+     <Skeleton className="h-full w-96">
+      </Skeleton>
+    }
     </>
     
     )

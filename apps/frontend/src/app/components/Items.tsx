@@ -1,13 +1,16 @@
-import Image, { StaticImageData } from "next/image";
-
 type ItemsProps = {
   src?: string;
   title?: string;
+  id:string;
+  onclick: (name: string | undefined ,id:string |undefined) => void;
+  selected:boolean;
+
 };
 
-export const Items = ({ src, title }: ItemsProps) => {
+export const Items = ({ src, title,onclick,id }: ItemsProps) => {
+
   return (
-    <div className="flex items-center gap-3">
+    <div onClick={()=>onclick(title,id)} className={`flex items-center gap-3 text-white hover:bg-primary/80 rounded-sm py-3 cursor-pointer px-3`}>
       {src && (
         <img
           src={src}
@@ -17,7 +20,8 @@ export const Items = ({ src, title }: ItemsProps) => {
           className="rounded-md"
         />
       )}
-      <h1 className="text-white text-base">{title}</h1>
+      <h2>{title}</h2>
+            
     </div>
   );
 };

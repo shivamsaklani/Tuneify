@@ -14,12 +14,16 @@ export interface PlaylistItem {
     images: Images[];
     // Add more properties as needed
   }
- 
+export interface Album{
+  id:string;
+  name:string;
+}
 export interface TrackItemType{
-  onclick:()=>void;
-  idx:number;
+  id:string;
+  href:string;
   img?:string;
-  title:string;
-  Album:string;
+  name:string;
+  Album:Album;
+  date:string;
   duration:number;
 }

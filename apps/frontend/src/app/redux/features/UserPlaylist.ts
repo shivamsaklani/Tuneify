@@ -24,8 +24,10 @@ const userPlaylistSlice = createSlice({
   state.playlist = action.payload;
     },
     selectplaylist(state, action: PayloadAction<SelectedPlaylist>) {
-      state.selectedplaylist.id = action.payload.id;
-      state.selectedplaylist.name=action.payload.name;
+      state.selectedplaylist={
+          name:action.payload.name,
+          id:action.payload.id
+      }
     }
   }
 });

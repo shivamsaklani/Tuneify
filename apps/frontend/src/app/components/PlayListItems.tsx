@@ -18,7 +18,7 @@ export const PlayListItems = ({
   const Icon = icon;
 
   return (
-    <div className="flex shadow-md shadow-white h-full flex-col p-3 gap-5">
+    <div className="flex p-3 gap-5">
       <div className="flex text-gray-200 sticky justify-center items-center gap-2">
         {Icon && (
           <span >

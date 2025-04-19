@@ -9,6 +9,7 @@ import {useDispatch  , useSelector } from "react-redux";
 import { RootState } from "@/app/redux/store";
 import { addUser } from "@/app/redux/features/UserInfo";
 import { loginSuccess } from "@/app/redux/features/loginSlice";
+import { setLoading } from "@/app/redux/features/Loading";
 
 export const MainBody = () => {
 const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const token =useSelector((state:RootState)=>state.auth.token);
 const refresh_token = useSelector((state:RootState)=>state.auth.refresh_token);
 
   useEffect(() => {
-
+    dispatch(setLoading(true));
     if (!token) return;
 
     const fetchUserInfo = async () => {
@@ -35,7 +36,7 @@ const refresh_token = useSelector((state:RootState)=>state.auth.refresh_token);
         dispatch(
           addUser(user)
         );
-
+        dispatch(setLoading(false));
        
       } catch (error) {
         console.error("Error fetching user info:", error);
@@ -48,9 +49,13 @@ const refresh_token = useSelector((state:RootState)=>state.auth.refresh_token);
   useEffect(()=>{
    if(!token) return;
    const GenerateNewToken = async ()=>{
-      const NewToken = await axios.get(`http://localhost:3000/api/v1/spotify/auth/refresh_token?refresh_token=${refresh_token}`);
-      console.log(NewToken.data);
-      dispatch(loginSuccess({token:NewToken.data.token,refresh_token:NewToken.data.new_refresh_token}));
+     try {
+       const NewToken = await axios.get(`http://localhost:3000/api/v1/spotify/auth/refresh_token?refresh_token=${refresh_token}`);
+       dispatch(loginSuccess({token:NewToken.data.token,refresh_token:NewToken.data.new_refresh_token}));
+     } catch (error) {
+      console.log(error);
+      
+     }
    }
    GenerateNewToken();
   },[dispatch]);
