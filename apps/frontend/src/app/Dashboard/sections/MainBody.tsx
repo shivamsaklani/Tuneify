@@ -10,6 +10,7 @@ import { RootState } from "@/app/redux/store";
 import { addUser } from "@/app/redux/features/UserInfo";
 import { loginSuccess } from "@/app/redux/features/loginSlice";
 import { setLoading } from "@/app/redux/features/Loading";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const MainBody = () => {
 const dispatch = useDispatch();
@@ -44,7 +45,7 @@ const refresh_token = useSelector((state:RootState)=>state.auth.refresh_token);
      
     };
     fetchUserInfo();
-  }, [dispatch]);
+  }, [dispatch,token]);
 
   useEffect(()=>{
    if(!token) return;
@@ -63,8 +64,11 @@ const refresh_token = useSelector((state:RootState)=>state.auth.refresh_token);
     <div className="bg-primary h-screen flex flex-col">
       <Header />
       <ResizablePanelGroup direction="horizontal" className="flex-grow gap-2 p-2 pb-5">
-        <ResizablePanel defaultSize={20} className="md:flex hidden" minSize={5} maxSize={20} >
-          <Sidebar />
+        <ResizablePanel defaultSize={20} className="md:flex hidden h-full rounded-md bg-black/40 " minSize={5} maxSize={20} >
+        <ScrollArea className="w-full sm:grid hidden pt-5 h-[96] rounded-md">
+        <Sidebar />
+        </ScrollArea>
+          
         
         </ResizablePanel>
         <ResizableHandle className="md:flex hidden 

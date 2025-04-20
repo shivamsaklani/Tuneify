@@ -4,6 +4,7 @@ import { MenuToggle } from "@/app/components/MenuToggle";
 import { ProfilIcon } from "@/app/components/ProfileIcon";
 import { SearchBar } from "@/app/components/SearchBar";
 import { SpotifyIcon } from "@/app/components/Spotify";
+import { Tuneify } from "@/app/components/Tuneify";
 import { RootState } from "@/app/redux/store";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
@@ -25,12 +26,7 @@ export const Header = () => {
             </div>
           ) : (
             // Actual Logo and Name
-            <div className="flex flex-rows justify-between space-x-3">
-              <div className="flex items-center justify-between space-x-2">
-                <SpotifyIcon className="sm:size-10 size-5" />
-                <h1 className="sm:text-3xl text-2xl">Tuneify</h1>
-              </div>
-            </div>
+           <Tuneify/>
           )}
           <div className="hidden absolute left-1/4 w-1/2 md:flex">
             {isLoading ? <Skeleton className="h-10 w-full rounded-md" /> : <SearchBar />}

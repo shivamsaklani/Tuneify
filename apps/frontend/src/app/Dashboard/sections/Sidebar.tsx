@@ -3,12 +3,11 @@ import { Items } from "@/app/components/Items"
 import { TvIcon } from "lucide-react"
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/redux/store";
-import { PlaylistItem, SelectedPlaylist } from "@/types/GlobalTypes";
+import { PlaylistItem} from "@/types/GlobalTypes";
 import { useEffect } from "react";
 import { addplaylist, selectplaylist } from "@/app/redux/features/UserPlaylist";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { setLoading } from "@/app/redux/features/Loading";
 
@@ -69,8 +68,6 @@ export const Sidebar=()=>{
           </span>
      <h1 className="text-lg font-semibold">PlayList</h1>
       </div>
-    
-    <ScrollArea className="w-full sm:grid hidden pt-5 h-full bg-black/40 rounded-md">
      
       <div>
       <PlayListItems>
@@ -81,7 +78,6 @@ export const Sidebar=()=>{
           </div>
       </PlayListItems>
     </div>
-    </ScrollArea>
     </div>:
      <Skeleton className="h-full w-96">
       </Skeleton>

@@ -27,3 +27,10 @@ export interface TrackItemType{
   date:string;
   duration:number;
 }
+
+export interface TrackType{
+  id:string,
+  img:string,
+  duration:number,
+  name:string
+}

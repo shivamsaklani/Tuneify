@@ -10,11 +10,13 @@ import { TrackItem } from "@/app/components/TrackItem";
 import { TrackItemType } from "@/types/GlobalTypes";
 import axios from "axios";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useDispatch } from "react-redux";
+import { setCurrentTrack } from "@/app/redux/features/CurrentTrack";
 export const MusicSection=()=>{
   const PlayListId = useSelector((state:RootState)=>state.userPlaylist.selectedplaylist);
   const [Track,setTrack]=useState<TrackItemType[] | null>(null);
   const [img,setImg] = useState(null);
-  const User = useSelector((state:RootState)=>state.userInfo);
+  const currentTrack = useDispatch();
   const token = useSelector((state:RootState)=>state.auth.token);
     const scrollRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
@@ -55,11 +57,18 @@ response.data.tracks.items.forEach((item: any) => {
   };
 
   NewTrack.push(trackObj);
+
   
 });
 console.log(NewTrack);
-setTrack(NewTrack);
 
+setTrack(NewTrack);
+currentTrack(setCurrentTrack({
+  name:NewTrack[0].name,
+  id:NewTrack[0].id,
+  img:NewTrack[0].img,
+  duration:NewTrack[0].duration
+}));
       } catch (error) {
         console.log(error);
       }

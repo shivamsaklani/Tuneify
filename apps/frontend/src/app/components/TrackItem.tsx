@@ -1,12 +1,9 @@
 import { TrackItemType } from "@/types/GlobalTypes";
 import { PlayMusic } from "../PlayLogic/PlayMusic";
-
-function convertDuration(ms: number): string {
-  const totalSeconds = Math.floor(ms / 1000);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-}
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { convertDuration } from "../PlayLogic/Duration";
 
 interface TrackItemProps extends TrackItemType {
   index: number;
@@ -22,8 +19,10 @@ export const TrackItem = ({
   date,
   duration,
 }: TrackItemProps) => {
+  const dispatch = useDispatch();
+  const token = useSelector((state:RootState)=>state.auth.token);
   return (
-    <div onClick={()=>PlayMusic(id)} className="hover:bg-primary/70 text-gray-300 cursor-pointer hover:rounded-sm p-3 px-2">
+    <div onClick={()=>PlayMusic(id,dispatch,token)} className="hover:bg-primary/70 text-gray-300 cursor-pointer hover:rounded-sm p-3 px-2">
       <div className="flex justify-between items-center gap-4 overflow-hidden">
         <div className="flex items-center gap-5 overflow-hidden flex-1 min-w-0">
           <p className="w-5 shrink-0">{index + 1}</p>

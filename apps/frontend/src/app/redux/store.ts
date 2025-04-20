@@ -3,6 +3,7 @@ import authReducer from "./features/loginSlice";
 import userPlaylists from "./features/UserPlaylist";
 import UserInfo from "./features/UserInfo";
 import IsLoading from "./features/Loading";
+import Track from  "./features/CurrentTrack";
 import {
   persistStore,
   persistReducer,
@@ -16,12 +17,15 @@ import {
 
 import storage from "redux-persist/lib/storage"; // uses localStorage for web
 
+
+
 // Combine reducers
 const rootReducer = combineReducers({
   auth: authReducer,
   userPlaylist: userPlaylists,
   userInfo:UserInfo,
-  isLoading:IsLoading
+  isLoading:IsLoading,
+  Track:Track,
 });
 
 // Config for redux-persist
