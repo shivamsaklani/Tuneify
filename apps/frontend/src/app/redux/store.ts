@@ -4,6 +4,7 @@ import userPlaylists from "./features/UserPlaylist";
 import UserInfo from "./features/UserInfo";
 import IsLoading from "./features/Loading";
 import Track from  "./features/CurrentTrack";
+import SpotifyPlayer from "./features/SpotifyPlayer";
 import {
   persistStore,
   persistReducer,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   userInfo:UserInfo,
   isLoading:IsLoading,
   Track:Track,
+  Player:SpotifyPlayer,
 });
 
 // Config for redux-persist

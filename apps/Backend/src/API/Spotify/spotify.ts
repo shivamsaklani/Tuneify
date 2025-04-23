@@ -18,7 +18,8 @@ var scope = "streaming \
                 user-library-read \
                 user-read-recently-played \
                 user-follow-read \
-                playlist-read-private";
+                playlist-read-private \
+                streaming";
 router.get("/authorize", (req: Request, res: Response) => {
     var state = generateRandomString(16);
     var auth_query_parameters = new URLSearchParams({
@@ -54,8 +55,6 @@ router.get('/auth/callback', async (req:Request, res:Response) => {
       const response = await axios(authOptions);
       const access_token = response.data.access_token;
       const refresh_token=response.data.refresh_token;
-      req.session.access_token = access_token;
-      req.session.refresh_token = refresh_token;// think to remove it later
       res.redirect(`/callback?token=${access_token}&refresh_token=${refresh_token}`);
     } catch (error) {
       console.error('Error getting token:', error);
@@ -92,15 +91,17 @@ router.get('/auth/refresh_token',async(req:Request,res:Response)=>{
 
 });
 
-router.get("/auth", (req: Request, res: Response) => {
-    const token = req.session.access_token;
-    const refreshtoken = req.session.refresh_token;
-    res.json({
-       token,
-       refreshtoken
-    })
-
-
+router.put('/playstatus', async (req:Request,res:Response)=>{
+  const token = req.body.token;
+  const isPlaying = req.body.PlayStatus;
+  const Play = await axios.put(`https://api.spotify.com/v1/me/player/${isPlaying?"play":"pause"}`,null,{
+    headers:{
+        Authorization:`Bearer ${token}`,
+        "Content-Type":"application/json"
+    }
 });
+});
+
+
 
 export default router;

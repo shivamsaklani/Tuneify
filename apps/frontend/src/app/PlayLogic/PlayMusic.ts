@@ -1,6 +1,6 @@
 import axios from "axios"
 import { setCurrentTrack } from "../redux/features/CurrentTrack"
-import { TrackItemType, TrackType } from "@/types/GlobalTypes";
+import { TrackType } from "@/types/GlobalTypes";
 
 export const PlayMusic =async (id:string,dispatch:any,token:string |null) =>{
    

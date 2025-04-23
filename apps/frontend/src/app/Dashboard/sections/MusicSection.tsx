@@ -12,6 +12,7 @@ import axios from "axios";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useDispatch } from "react-redux";
 import { setCurrentTrack } from "@/app/redux/features/CurrentTrack";
+import SpotifyPlayer from "./SpotifyWeb";
 export const MusicSection=()=>{
   const PlayListId = useSelector((state:RootState)=>state.userPlaylist.selectedplaylist);
   const [Track,setTrack]=useState<TrackItemType[] | null>(null);
@@ -24,7 +25,7 @@ export const MusicSection=()=>{
         offset: ["start start", "end start"],
       });
       const stickyOpacity = useTransform(scrollYProgress, [0.1, 0.2], [0, 1]);
-      const stickyY = useTransform(scrollYProgress, [0.1, 0.2], [-20, 0]);
+      const stickyY = useTransform(scrollYProgress, [0.1, 0.2], [20, 0]);
     const user= useSelector((state:RootState)=>state.userInfo);
    
     useEffect(()=>{
@@ -105,7 +106,7 @@ currentTrack(setCurrentTrack({
     {/* Sticky Animated Title */}
     <motion.div
       style={{ opacity: stickyOpacity, y: stickyY }}
-      className="sticky top-0 absolute z-20 bg-gradient-to-r from-purple-500 to-blue-500 px-3 py-2 shadow-md"
+      className="sticky top-0 absolute z-999 bg-gradient-to-r from-purple-500 to-blue-500 px-3 py-2 shadow-md"
     >
       <h1 className="text-4xl font-white font-sans">Music PlayList</h1>
     </motion.div>
@@ -147,6 +148,8 @@ currentTrack(setCurrentTrack({
     </div>
   </ScrollArea>
 </section>
+
+
 
         </div>
        

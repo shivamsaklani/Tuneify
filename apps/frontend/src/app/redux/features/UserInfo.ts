@@ -3,14 +3,16 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type UserInfo={
     name?:string,
     id?:string,
-    email?:string
+    email?:string,
+    isPremium:boolean,
 }
 
 
 const initialState:UserInfo={
     name:'',
     id:'',
-    email:''
+    email:'',
+    isPremium:false,
 }
 
 const UserInfo = createSlice({
@@ -21,6 +23,7 @@ const UserInfo = createSlice({
             state.name=action.payload.name,
             state.email=action.payload.email,
             state.id=action.payload.id;
+            state.isPremium=action.payload.isPremium
         }
     }
 });

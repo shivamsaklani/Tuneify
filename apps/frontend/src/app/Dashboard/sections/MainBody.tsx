@@ -2,8 +2,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/componen
 import { Header } from "./Header";
 import { MusicSection } from "./MusicSection";
 import { Sidebar } from "./Sidebar";
-import { MusicPlayer } from "./MusicPlayer";
-import { useEffect} from "react";
+import { useEffect, useState} from "react";
 import axios from "axios";
 import {useDispatch  , useSelector } from "react-redux";
 import { RootState } from "@/app/redux/store";
@@ -11,11 +10,15 @@ import { addUser } from "@/app/redux/features/UserInfo";
 import { loginSuccess } from "@/app/redux/features/loginSlice";
 import { setLoading } from "@/app/redux/features/Loading";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { CameraDashboard } from "./CameraDashboard";
+import SpotifyPlayer from "./SpotifyWeb";
 
 export const MainBody = () => {
+const [camera,setCamera]=useState(false);
 const dispatch = useDispatch();
 const token =useSelector((state:RootState)=>state.auth.token);
 const refresh_token = useSelector((state:RootState)=>state.auth.refresh_token);
+const isPremium=useSelector((state:RootState)=>state.userInfo.isPremium);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -32,8 +35,10 @@ const refresh_token = useSelector((state:RootState)=>state.auth.refresh_token);
           name: data.display_name,
           email: data.email,
           id: data.id,
+          isPremium : data.product === "premium"?true:false
         };
-
+        console.log(data.premium);
+        console.log(user);
         dispatch(
           addUser(user)
         );
@@ -62,7 +67,9 @@ const refresh_token = useSelector((state:RootState)=>state.auth.refresh_token);
   },[dispatch]);
   return (
     <div className="bg-primary h-screen flex flex-col">
-      <Header />
+      {camera && <CameraDashboard /> }
+       <Header setCamera={()=>setCamera(true)} />
+    
       <ResizablePanelGroup direction="horizontal" className="flex-grow gap-2 p-2 pb-5">
         <ResizablePanel defaultSize={20} className="md:flex hidden h-full rounded-md bg-black/40 " minSize={5} maxSize={20} >
         <ScrollArea className="w-full sm:grid hidden pt-5 h-[96] rounded-md">
@@ -78,8 +85,19 @@ const refresh_token = useSelector((state:RootState)=>state.auth.refresh_token);
         <ResizablePanel defaultSize={70}>
           <MusicSection />
         </ResizablePanel>
+
       </ResizablePanelGroup>
-      <MusicPlayer />
+      {isPremium?
+        ((token)?
+        <SpotifyPlayer token={token}/>:
+      <div>
+        Not Working
+      </div>):
+      <div className="flex flex-col justify-center items-center text-gray-500">
+        <h1 className="text-3xl">Not a preimum User</h1>
+        <span>Due to Spotify Policies only Preimum users can access their Player</span>
+      </div>
+      }
     </div>
   );
 };

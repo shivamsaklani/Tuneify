@@ -1,40 +1,105 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/redux/store";
-import { Pause, SkipBack, SkipForward, StepBack } from "lucide-react";
+import { Pause, Play, SkipBack, SkipForward, StepBack, Volume2, VolumeX } from "lucide-react";
 import { convertDuration } from "@/app/PlayLogic/Duration";
-export const MusicPlayer =()=>{
+import { useEffect, useRef, useState } from "react";
+import { Slider } from "@/components/ui/slider";
+import { twMerge } from "tailwind-merge";
+import { useDispatch } from "react-redux";
+import { useButton, useTogglePlay } from "@/app/PlayLogic/Play";
+import { useVolume } from "@/app/PlayLogic/ChangeVolume";
+import { setVolume } from "@/app/redux/features/SpotifyPlayer";
+export const MusicPlayer =({player}:{player:Spotify.Player})=>{
+    const {isPlaying,togglePlay}= useTogglePlay();
+    const {ChangeVolume} = useVolume();
+    const volume = useSelector((state: RootState) => state.Player.volume);
+  const [progress, setProgress] = useState(0);
+  const {BackWard,Forward} = useButton();
+  const [showVolume, setShowVolume] = useState(false);
+  const volumeRef = useRef<HTMLAudioElement | null>(null);
     const currentTrack = useSelector((state:RootState)=>state.Track);
-    return(
-        <div className="bg-black/40 text-white flex w-full h-30">
-          <div className="flex flex-col gap-2 w-full">
-          <div className="bg-green-300  sm:col-span-0 ">
-                   timer
-                </div>
-           <div className="grid px-5 sm:grid-cols-3 grid-cols-3 w-full max-h-full gap-3 items-center">
-                <div className="flex   gap-3 items-center">
-                   <img className="size-18 rounded-md" src={currentTrack.img || undefined} alt="image" />
-                   <span className="overflow-hidden">{currentTrack.name}</span>
-                </div>
-                <div className="flex flex-rows text-8xl items-center gap-5 justify-center h-full w-full">
-                        <div className="flex flex-rows gap-10 ">
+    const currentvolume= useSelector((state:RootState)=>state.Player.volume);
+    const dispatch=useDispatch();
+    useEffect(()=>{
 
-                            <span><SkipBack /></span>
-                            <span><Pause/></span>
-                            <span><SkipForward/></span>
-                        </div>
-                    
-                </div>
-                
-                <div className="flex gap-3 justify-end">
-                    <input type="range" min="0" max="100" />
-                    <span>{convertDuration(currentTrack.duration)}</span>
-                    /
-                    <span>
-                    {convertDuration(currentTrack.duration)}
-                    </span>
-                </div>
-           </div>
+
+    },[dispatch]); // enter current playing music
+
+    return(
+        <div className=" left-0 right-0 bg-gradient-to-t from-zinc-900/95 to-zinc-900/90 backdrop-blur-lg text-white border-t border-white/10">
+        <div className="max-w-screen-xl mx-auto px-4 py-3">
+          {/* Progress bar */}
+          <div className="w-full mb-4">
+            <Slider
+              value={[progress]}
+              max={100}
+              step={1}
+              className="w-full"
+              onValueChange={(value) => setProgress(value[0])}
+            />
+          </div>
+  
+          <div className="flex items-center justify-between gap-4">
+            {/* Track info */}
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              <img 
+                src={currentTrack.img || undefined} 
+                alt={currentTrack.name}
+                className="sm:size-8 size-12 rounded-md object-cover shadow-lg"
+              />
+              <div className="min-w-0 flex-1">
+                <h3 className="font-medium text-sm text-white truncate">{currentTrack.name}</h3>
+                {/* <p className="text-xs text-zinc-400 truncate">{currentTrack.artist}</p> */}
+              </div>
+            </div>
+  
+            {/* Playback controls */}
+            <div className="flex items-center justify-center gap-6">
+              <button onClick={BackWard} className="text-zinc-400 hover:text-accent transition">
+                <SkipBack className="w-5 h-5" />
+              </button>
+              <button 
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-accent text-white hover:scale-105 transition"
+                onClick={togglePlay}
+              >
+                {isPlaying ? (
+                  <Pause className="w-4 h-4" />
+                ) : (
+                  <Play className="w-4 h-4 ml-0.5" />
+                )}
+              </button>
+              <button onClick={Forward} className="text-zinc-400 hover:text-accent transition">
+                <SkipForward className="w-5 h-5" />
+              </button>
+            </div>
+  
+            {/* Volume control */}
+            <div className="flex items-center gap-2 w-32">
+              <button 
+                className="text-zinc-400 hover:text-white transition"
+                onClick={() => setShowVolume(!showVolume)}
+              >
+                {volume === 0 ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+              </button>
+              <div className={twMerge("transition-all duration-200", showVolume ? "w-full opacity-100" : "w-0 opacity-0")}>
+                <Slider
+                  value={[volume]}
+                  max={100}
+                  step={1}
+                  className="w-full"
+                  onValueChange={(value) => {
+                    const newvolume = value[0];
+                    dispatch(setVolume(newvolume));
+                    ChangeVolume(value[0])}}
+                />
+              </div>
+              <div className="text-xs text-zinc-400 min-w-[3rem] text-right">
+                {convertDuration(currentTrack.duration*(progress/100))}/
+                {convertDuration(currentTrack.duration)}
+              </div>
+            </div>
           </div>
         </div>
+      </div>
     )
 }

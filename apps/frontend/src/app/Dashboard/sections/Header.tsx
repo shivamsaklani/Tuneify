@@ -10,7 +10,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-export const Header = () => {
+export const Header = ({setCamera}:{
+  setCamera:()=>void;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const isLoading = useSelector((state: RootState) => state.isLoading);
 
@@ -40,7 +42,7 @@ export const Header = () => {
               <Skeleton className="h-4 w-20" />
             </div>
           ) : (
-            <div className="flex cursor-pointer flex-cols justify-center items-center absolute space-x-1 right-16">
+            <div onClick={setCamera} className="flex cursor-pointer flex-cols justify-center items-center absolute space-x-1 right-16">
               <Camera className="size-10 text-white" />
               <span className="text-sm">Open Camera</span>
             </div>
