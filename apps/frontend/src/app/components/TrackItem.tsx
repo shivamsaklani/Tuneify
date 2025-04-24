@@ -1,9 +1,9 @@
 import { TrackItemType } from "@/types/GlobalTypes";
-import { PlayMusic } from "../PlayLogic/PlayMusic";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { convertDuration } from "../PlayLogic/Duration";
+import { usePlayMusic } from "../PlayLogic/PlayMusic";
 
 interface TrackItemProps extends TrackItemType {
   index: number;
@@ -19,6 +19,7 @@ export const TrackItem = ({
   date,
   duration,
 }: TrackItemProps) => {
+  const {PlayMusic}=usePlayMusic();
   const dispatch = useDispatch();
   const token = useSelector((state:RootState)=>state.auth.token);
   return (

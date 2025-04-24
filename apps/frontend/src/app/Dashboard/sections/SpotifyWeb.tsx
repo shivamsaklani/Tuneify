@@ -68,7 +68,7 @@ const SpotifyPlayer = ({ token }: { token: string }) => {
 
   return (
     <div >
-      {LocalPlayerRef.current ? <MusicPlayer player={LocalPlayerRef.current} /> : <p className='flex justify-center text-gray-500 items-center'>Loading Spotify Player...</p>}
+      {LocalPlayerRef.current ? <MusicPlayer /> : <p className='flex justify-center text-gray-500 items-center'>Loading Spotify Player...</p>}
     </div>
   );
 };

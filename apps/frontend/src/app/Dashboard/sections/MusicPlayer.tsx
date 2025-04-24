@@ -9,7 +9,8 @@ import { useDispatch } from "react-redux";
 import { useButton, useTogglePlay } from "@/app/PlayLogic/Play";
 import { useVolume } from "@/app/PlayLogic/ChangeVolume";
 import { setVolume } from "@/app/redux/features/SpotifyPlayer";
-export const MusicPlayer =({player}:{player:Spotify.Player})=>{
+
+export const MusicPlayer =()=>{
     const {isPlaying,togglePlay}= useTogglePlay();
     const {ChangeVolume} = useVolume();
     const volume = useSelector((state: RootState) => state.Player.volume);
@@ -21,7 +22,7 @@ export const MusicPlayer =({player}:{player:Spotify.Player})=>{
     const currentvolume= useSelector((state:RootState)=>state.Player.volume);
     const dispatch=useDispatch();
     useEffect(()=>{
-
+      
 
     },[dispatch]); // enter current playing music
 

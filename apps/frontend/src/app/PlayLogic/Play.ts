@@ -1,3 +1,4 @@
+// this Hook is used to play and pause the music 
 import { useDispatch, useSelector } from "react-redux";
 import { setPlaying } from "../redux/features/SpotifyPlayer";
 import { RootState } from "../redux/store";
