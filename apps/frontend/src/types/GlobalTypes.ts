@@ -32,5 +32,5 @@ export interface TrackType{
   id:string,
   img:string,
   duration:number,
-  name:string
+  name:string,
 }

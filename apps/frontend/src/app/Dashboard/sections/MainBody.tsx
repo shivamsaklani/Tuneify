@@ -66,11 +66,14 @@ const isPremium=useSelector((state:RootState)=>state.userInfo.isPremium);
    GenerateNewToken();
   },[dispatch]);
   return (
+    <>
+   
     <div className="bg-primary h-screen flex flex-col">
-      {camera && <CameraDashboard /> }
-       <Header setCamera={()=>setCamera(true)} />
+     
+       <Header setCamera={()=>setCamera(!camera)} />
     
       <ResizablePanelGroup direction="horizontal" className="flex-grow gap-2 p-2 pb-5">
+      {camera ?<CameraDashboard/>: <>
         <ResizablePanel defaultSize={20} className="md:flex hidden h-full rounded-md bg-black/40 " minSize={5} maxSize={20} >
         <ScrollArea className="w-full sm:grid hidden pt-5 h-[96] rounded-md">
         <Sidebar />
@@ -84,8 +87,8 @@ const isPremium=useSelector((state:RootState)=>state.userInfo.isPremium);
         cursor-col-resize"/>
         <ResizablePanel defaultSize={70}>
           <MusicSection />
-        </ResizablePanel>
-
+        </ResizablePanel></>
+}
       </ResizablePanelGroup>
       {isPremium?
         ((token)?
@@ -99,5 +102,6 @@ const isPremium=useSelector((state:RootState)=>state.userInfo.isPremium);
       </div>
       }
     </div>
+    </>
   );
 };

@@ -42,6 +42,9 @@ const SpotifyPlayer = createSlice({
         resetPlayer(state) {
             state.playerReady = false;
             state.Track = null;
+            state.volume =0;
+            state.isPlaying=false;
+            state.device_id="";
           },
     }
 });

@@ -27,5 +27,5 @@ export default function Callback() {
     }
   }, [router,searchParams,dispatch]);
 
-  return <Animate/>;
+  return <Animate text="Loading"/>;
 }

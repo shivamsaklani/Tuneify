@@ -1,53 +1,55 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/redux/store";
 import { Pause, Play, SkipBack, SkipForward, StepBack, Volume2, VolumeX } from "lucide-react";
-import { convertDuration } from "@/app/PlayLogic/Duration";
-import { useEffect, useRef, useState } from "react";
+import { convertDuration, useCurrentDuration } from "@/app/PlayLogic/Duration";
+import { useEffect, useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { twMerge } from "tailwind-merge";
 import { useDispatch } from "react-redux";
 import { useButton, useTogglePlay } from "@/app/PlayLogic/Play";
 import { useVolume } from "@/app/PlayLogic/ChangeVolume";
 import { setVolume } from "@/app/redux/features/SpotifyPlayer";
+import { useSeek } from "@/app/PlayLogic/SeekDuration";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const MusicPlayer =()=>{
     const {isPlaying,togglePlay}= useTogglePlay();
     const {ChangeVolume} = useVolume();
     const volume = useSelector((state: RootState) => state.Player.volume);
-  const [progress, setProgress] = useState(0);
+    const duration = useSelector((state:RootState)=>state.Track.duration) || 0;
+  const {progress:currentProgress} = useCurrentDuration();
+  const percent_currentProgress = duration ? (currentProgress / duration) * 100 : 0;
   const {BackWard,Forward} = useButton();
+  const {seekduration} = useSeek();
   const [showVolume, setShowVolume] = useState(false);
-  const volumeRef = useRef<HTMLAudioElement | null>(null);
     const currentTrack = useSelector((state:RootState)=>state.Track);
-    const currentvolume= useSelector((state:RootState)=>state.Player.volume);
     const dispatch=useDispatch();
-    useEffect(()=>{
-      
-
-    },[dispatch]); // enter current playing music
-
+   
     return(
         <div className=" left-0 right-0 bg-gradient-to-t from-zinc-900/95 to-zinc-900/90 backdrop-blur-lg text-white border-t border-white/10">
         <div className="max-w-screen-xl mx-auto px-4 py-3">
           {/* Progress bar */}
           <div className="w-full mb-4">
             <Slider
-              value={[progress]}
+              value={[percent_currentProgress]}
               max={100}
               step={1}
               className="w-full"
-              onValueChange={(value) => setProgress(value[0])}
+              onValueChange={([value])=>{
+                const seek = (value /100)*(duration || 1);
+                seekduration(seek);
+              }}
             />
           </div>
   
           <div className="flex items-center justify-between gap-4">
             {/* Track info */}
             <div className="flex items-center gap-3 min-w-0 flex-1">
-              <img 
-                src={currentTrack.img || undefined} 
+              {currentTrack.img?<img 
+                src={currentTrack.img} 
                 alt={currentTrack.name}
                 className="sm:size-8 size-12 rounded-md object-cover shadow-lg"
-              />
+              />:<Skeleton className="sm:size-8 size-12 rounded-md object-cover shadow-lg"  /> }
               <div className="min-w-0 flex-1">
                 <h3 className="font-medium text-sm text-white truncate">{currentTrack.name}</h3>
                 {/* <p className="text-xs text-zinc-400 truncate">{currentTrack.artist}</p> */}
@@ -95,7 +97,7 @@ export const MusicPlayer =()=>{
                 />
               </div>
               <div className="text-xs text-zinc-400 min-w-[3rem] text-right">
-                {convertDuration(currentTrack.duration*(progress/100))}/
+                {convertDuration(currentProgress)}/
                 {convertDuration(currentTrack.duration)}
               </div>
             </div>

@@ -10,15 +10,15 @@ export const useTogglePlay = () => {
   const dispatch = useDispatch();
   const token = useSelector((state:RootState)=>state.auth.token);
   const isPlaying = useSelector((state: RootState) =>state.Player.isPlaying );
-
   const togglePlay =async () => {
     dispatch(setPlaying(!isPlaying));
    try {
-     const Play = await axios.put(`https://api.spotify.com/v1/me/player/${isPlaying?"pause":"play"}`,null,{
+    await axios.put(`https://api.spotify.com/v1/me/player/${isPlaying?"pause":"play"}`,null,{
        headers:{
            Authorization:`Bearer ${token}`,
        }
    }); 
+
    } catch (error) {
     console.log(error);
    }
@@ -26,7 +26,7 @@ export const useTogglePlay = () => {
 
   return { isPlaying, togglePlay };
 };
-
+// BackWard and Forward Button Logic 
 export const useButton= () => {
   const token = useSelector((state: RootState) => state.auth.token);
   const device_id = useSelector((state: RootState) => state.Player.device_id);

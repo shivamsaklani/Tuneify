@@ -1,18 +1,33 @@
 "use client";
-import { motion } from "motion/react";
 
-export const Animate = () => {
+import { motion } from "framer-motion";
+
+interface AnimateProps {
+  text?: string;
+  dotColor?: string;
+  fullScreen?: boolean;
+}
+
+export const Animate: React.FC<AnimateProps> = ({
+  text = "Loading",
+  dotColor = "bg-white",
+  fullScreen = true, 
+}) => {
   return (
-    <div className="bg-primary h-screen w-screen flex flex-col items-center justify-center space-y-6">
+    <div
+      className={`bg-primary flex flex-col items-center justify-center space-y-6 ${
+        fullScreen ? "h-screen w-screen" : ""
+      }`}
+    >
       <h1 className="text-white text-4xl font-semibold tracking-wider animate-pulse">
-        Loading
+        {text}
       </h1>
 
       <div className="flex gap-4">
         {[0, 1, 2].map((i) => (
           <motion.div
             key={i}
-            className="w-4 h-4 rounded-full bg-white shadow-lg"
+            className={`w-4 h-4 rounded-full ${dotColor} shadow-lg`}
             animate={{ y: [0, -16, 0] }}
             transition={{
               duration: 0.6,

@@ -1,8 +1,6 @@
 import { TrackType } from "@/types/GlobalTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-
-
 const InitialState:TrackType={
     id:'',
     name:'',

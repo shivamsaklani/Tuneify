@@ -8,7 +8,7 @@ type buttonProps={
     size?:"sm" |"lg" |"md"
 }
 export const Button =({children,onclick,variant="default",size="md"}:buttonProps)=>{
-    const baseclass="flex font-sans font-semibold cursor-pointer max-w-md shadow-md  justify-center items-center rounded-lg";
+    const baseclass="flex font-sans font-semibold cursor-pointer max-w-md shadow-md  justify-center items-center rounded-md";
     const variantClass ={
         default:"text-black hover:bg-gray-300",
         primary:"bg-primary text-white hover:bg-secondary",

@@ -6,11 +6,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { useVolume} from "./ChangeVolume";
 import { setPlaying } from "../redux/features/SpotifyPlayer";
+import { useCurrentTrack } from "./GetCurrentTrack";
 export const usePlayMusic =()=>{
   const device_id = useSelector((state:RootState)=>state.Player.device_id);
   const {ChangeVolume}= useVolume(); 
   const PlayMusic=async (id:string,dispatch:any,token:string |null) =>{
-   
     try {
       const response = await axios.get(`https://api.spotify.com/v1/tracks/${id}`,{
         headers:{
@@ -21,14 +21,14 @@ export const usePlayMusic =()=>{
         id:'',
         img:'',
         name:'',
-        duration:0
+        duration:0,
+        playlist_id:''
       };
       data.name=response.data.name;
       data.id=response.data.id;
       data.duration=response.data.duration_ms;
       data.img=response.data.album.images[0].url;
       dispatch(setCurrentTrack(data));
-      // Play Current Track
       await axios.put("https://api.spotify.com/v1/me/player/play",{
         "uris": [`spotify:track:${data.id}`],
         "position_ms": 0
@@ -46,10 +46,6 @@ export const usePlayMusic =()=>{
     } catch (error) {
       console.log(error);
     }
-
-
-  
-
 }
 return {PlayMusic};
 }

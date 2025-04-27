@@ -1,12 +1,12 @@
 import { PlayListItems } from "@/app/components/PlayListItems"
 import { Items } from "@/app/components/Items"
-import { TvIcon } from "lucide-react"
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/redux/store";
 import { PlaylistItem} from "@/types/GlobalTypes";
 import { useEffect } from "react";
 import { addplaylist, selectplaylist } from "@/app/redux/features/UserPlaylist";
 import axios from "axios";
+import Playlist from "@/app/assets/icons/Playlist.svg";
 import { useDispatch } from "react-redux";
 import { Skeleton } from "@/components/ui/skeleton";
 import { setLoading } from "@/app/redux/features/Loading";
@@ -64,7 +64,7 @@ export const Sidebar=()=>{
     <div className="flex flex-col">
        <div className="flex text-gray-200 pb-5 justify-center items-center gap-2">
           <span >
-           <TvIcon />
+           <Playlist className="size-10" />
           </span>
      <h1 className="text-lg font-semibold">PlayList</h1>
       </div>

@@ -3,7 +3,6 @@ import { Camera } from "@/app/components/Camera";
 import { MenuToggle } from "@/app/components/MenuToggle";
 import { ProfilIcon } from "@/app/components/ProfileIcon";
 import { SearchBar } from "@/app/components/SearchBar";
-import { SpotifyIcon } from "@/app/components/Spotify";
 import { Tuneify } from "@/app/components/Tuneify";
 import { RootState } from "@/app/redux/store";
 import { Skeleton } from "@/components/ui/skeleton";
