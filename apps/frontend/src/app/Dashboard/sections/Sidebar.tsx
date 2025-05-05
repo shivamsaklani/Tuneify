@@ -72,7 +72,7 @@ export const Sidebar=()=>{
       <PlayListItems>
           <div className="flex flex-col  space-y-3">
             {AllPlaylist.map((item, index) => (
-              <Items selected onclick={()=>CurrentPlayList(item.name,item.id)} id={item.id} key={index} title={item.name} />
+              <Items selected onclick={()=>CurrentPlayList(item.name,item.id)} src={item.images[0].url} id={item.id} key={index} title={item.name} />
             ))}
           </div>
       </PlayListItems>
