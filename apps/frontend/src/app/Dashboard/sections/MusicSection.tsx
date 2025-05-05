@@ -1,5 +1,5 @@
 import {useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/app/redux/store";
 import { TrackItemType } from "@/types/GlobalTypes";
 import { PlaylistSection } from "@/app/components/PlayListsection";
@@ -11,7 +11,6 @@ export const MusicSection = () => {
   const [img, setImg] = useState<string | null>(null);
   const token = useSelector((state: RootState) => state.auth.token);
   const user = useSelector((state: RootState) => state.userInfo);
-  // const dispatch = useDispatch();
   
 
   useEffect(() => {

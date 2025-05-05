@@ -22,7 +22,6 @@ export const usePlayMusic =()=>{
         img:'',
         name:'',
         duration:0,
-        playlist_id:''
       };
       data.name=response.data.name;
       data.id=response.data.id;
