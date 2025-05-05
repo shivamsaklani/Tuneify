@@ -15,7 +15,7 @@ export const useCurrentDuration = ()=>{
   const token =useSelector((state:RootState)=>state.auth.token);
   const [progress,setprogress]=useState<number>(0);
   useEffect(()=>{
-    let interval;
+
     const Duration = async ()=>{
     try {
         
@@ -32,7 +32,7 @@ export const useCurrentDuration = ()=>{
       
   }
   Duration();
-  interval = setInterval(() => {
+  const interval = setInterval(() => {
     Duration();
   }, 1000);
 

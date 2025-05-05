@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { useVolume} from "./ChangeVolume";
 import { setPlaying } from "../redux/features/SpotifyPlayer";
-import { useCurrentTrack } from "./GetCurrentTrack";
 export const usePlayMusic =()=>{
   const device_id = useSelector((state:RootState)=>state.Player.device_id);
   const {ChangeVolume}= useVolume(); 
@@ -17,7 +16,7 @@ export const usePlayMusic =()=>{
                 Authorization:"Bearer "+token
         }
       });
-      let data:TrackType={
+      const data:TrackType={
         id:'',
         img:'',
         name:'',

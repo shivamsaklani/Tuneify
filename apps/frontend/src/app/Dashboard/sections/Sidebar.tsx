@@ -14,7 +14,6 @@ import { setLoading } from "@/app/redux/features/Loading";
 export const Sidebar=()=>{
   const dispatch = useDispatch();
   const AllPlaylist: PlaylistItem[] = useSelector((state: RootState) => state.userPlaylist.playlist);
-  const SelectedPlaylist = useSelector((state:RootState)=>state.userPlaylist.selectedplaylist);
   const token = useSelector((state:RootState)=> state.auth.token);
   const CurrentPlayList = (name:string,id:string)=>{
     dispatch(selectplaylist({name:name,id:id}));

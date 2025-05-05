@@ -1,6 +1,5 @@
 "use client";
 import { Dispatch, SetStateAction } from "react";
-import { motion } from "motion/react";
 
 export const MenuToggle = ({
   isOpen,

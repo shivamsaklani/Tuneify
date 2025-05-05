@@ -2,7 +2,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Timer } from "lucide-react";
 import { TrackItem } from "@/app/components/TrackItem";
 import { TrackItemType } from "@/types/GlobalTypes";
-import { motion } from "motion/react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface PlaylistSectionProps {

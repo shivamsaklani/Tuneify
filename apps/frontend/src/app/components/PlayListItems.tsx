@@ -11,9 +11,7 @@ type PlayListItemsProps = {
 export const PlayListItems = ({
   children,
   icon,
-  className,
   title,
-  selected,
 }: PlayListItemsProps) => {
   const Icon = icon;
 
