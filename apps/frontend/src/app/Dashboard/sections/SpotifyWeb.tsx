@@ -64,7 +64,7 @@ const SpotifyPlayer = ({ token }: { token: string }) => {
         console.log('Disconnected Spotify player');
       }
     };
-  }, [token,dispatch]);
+  }, [token,dispatch,LocalPlayerRef]);
 
   return (
     <div >

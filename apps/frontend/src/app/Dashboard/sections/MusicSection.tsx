@@ -22,7 +22,7 @@ export const MusicSection = () => {
           },
         });
         setImg(response.data.images[0].url);
-        const newTrack: TrackItemType[] = response.data.tracks.items.map((item: any) => {
+        const newTrack: TrackItemType[] = response.data.tracks.items.map((item:any) => {
           const track = item.track;
           const album = track.album;
           const addedAt = new Date(item.added_at);

@@ -1,5 +1,4 @@
 import { TrackItemType } from "@/types/GlobalTypes";
-import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { convertDuration } from "../PlayLogic/Duration";
@@ -20,12 +19,10 @@ export const TrackItem = ({
   duration,
 }: TrackItemProps) => {
   const {PlayMusic}=usePlayMusic();
-  const dispatch = useDispatch();
-  const token = useSelector((state:RootState)=>state.auth.token);
   const curId = useSelector((state:RootState)=>state.Track.id);
   return (
     <>
-    <div onClick={()=>PlayMusic(id,dispatch,token)} className={`${curId == id && "bg-primary/70 rounded-sm"} hover:bg-primary/70 text-gray-300 cursor-pointer hover:rounded-sm p-3 px-2`}>
+    <div onClick={()=>PlayMusic(id)} className={`${curId == id && "bg-primary/70 rounded-sm"} hover:bg-primary/70 text-gray-300 cursor-pointer hover:rounded-sm p-3 px-2`}>
       <div className="flex justify-between items-center gap-4 overflow-hidden">
         <div className="flex items-center gap-5 overflow-hidden flex-1 min-w-0">
           {curId == id ?<MusicBars className="h-5" isPlaying/>: <p className="w-5 shrink-0">{index + 1}</p>}

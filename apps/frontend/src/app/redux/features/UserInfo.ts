@@ -20,10 +20,10 @@ const UserInfo = createSlice({
     initialState:initialState,
     reducers:{
         addUser(state,action: PayloadAction<UserInfo>){
-            state.name=action.payload.name,
-            state.email=action.payload.email,
+            state.name=action.payload.name;
+            state.email=action.payload.email;
             state.id=action.payload.id;
-            state.isPremium=action.payload.isPremium
+            state.isPremium=action.payload.isPremium;
         }
     }
 });
