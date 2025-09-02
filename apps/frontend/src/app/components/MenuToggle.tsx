@@ -1,4 +1,5 @@
 "use client";
+import { Cross, MenuIcon, MenuSquareIcon, ShieldCloseIcon, X } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
 export const MenuToggle = ({
@@ -14,9 +15,9 @@ export const MenuToggle = ({
       className="relative w-10 h-10 flex items-center justify-center z-50"
     >
         {isOpen ? <div>
-            close
+            <X/>
         </div>:<div>
-            open
+            <MenuSquareIcon/>
         </div>
 
         }
