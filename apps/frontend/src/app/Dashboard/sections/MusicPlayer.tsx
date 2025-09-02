@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/redux/store";
-import { Pause, Play, SkipBack, SkipForward, StepBack, Volume2, VolumeX } from "lucide-react";
+import { Pause, Play, SkipBack, SkipForward, Volume2, VolumeX } from "lucide-react";
 import { convertDuration, useCurrentDuration } from "@/app/PlayLogic/Duration";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { twMerge } from "tailwind-merge";
 import { useDispatch } from "react-redux";

@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "../components/Button";
 import { SpotifyIcon } from "../components/Spotify";
-import { Music, Music2 } from "lucide-react";
+import {  Music2 } from "lucide-react";
 import { Tuneify } from "../components/Tuneify";
 
 export const AuthPage = () => {

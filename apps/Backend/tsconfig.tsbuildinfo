@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/API/ApiV1.ts","./src/API/Spotify/spotify.ts"],"version":"5.8.2"}
+{"root":["./src/env.d.ts","./src/index.ts","./src/type.d.ts","./src/API/ApiV1.ts","./src/API/Spotify/Generate.ts","./src/API/Spotify/configure.ts","./src/API/Spotify/spotify.ts"],"version":"5.8.3"}

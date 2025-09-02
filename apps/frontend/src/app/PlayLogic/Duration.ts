@@ -13,10 +13,9 @@ export function convertDuration(ms: number): string {
 
 export const useCurrentDuration = ()=>{
   const token =useSelector((state:RootState)=>state.auth.token);
-  const play = useSelector((state:RootState)=>state.Player.isPlaying);
   const [progress,setprogress]=useState<number>(0);
   useEffect(()=>{
-    let interval;
+
     const Duration = async ()=>{
     try {
         
@@ -26,7 +25,6 @@ export const useCurrentDuration = ()=>{
             }
         });
         setprogress(current.data.progress_ms);
-      console.log(progress);
        
     } catch (error) {
       console.log(error);
@@ -34,11 +32,11 @@ export const useCurrentDuration = ()=>{
       
   }
   Duration();
-  interval = setInterval(() => {
+  const interval = setInterval(() => {
     Duration();
   }, 1000);
 
   return ()=>clearInterval(interval);
-  },[token]);
+  },[token,progress]);
  return {progress};
 }

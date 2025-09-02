@@ -1,51 +1,61 @@
-// this endpoint get the clicked track id and other information and then play music
-import axios from "axios"
-import { setCurrentTrack } from "../redux/features/CurrentTrack"
+import axios from "axios";
+import { setCurrentTrack } from "../redux/features/CurrentTrack";
 import { TrackType } from "@/types/GlobalTypes";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
-import { useVolume} from "./ChangeVolume";
+import { useVolume } from "./ChangeVolume";
 import { setPlaying } from "../redux/features/SpotifyPlayer";
-import { useCurrentTrack } from "./GetCurrentTrack";
-export const usePlayMusic =()=>{
-  const device_id = useSelector((state:RootState)=>state.Player.device_id);
-  const {ChangeVolume}= useVolume(); 
-  const PlayMusic=async (id:string,dispatch:any,token:string |null) =>{
+
+export const usePlayMusic = () => {
+  const device_id = useSelector((state: RootState) => state.Player.device_id);
+  const { ChangeVolume } = useVolume();
+  const dispatch = useDispatch();
+  const token = useSelector((state: RootState) => state.auth.token);
+
+  const PlayMusic = async (id: string) => {
+    if (!device_id) {
+      console.error("Device ID is missing");
+      return;
+    }
+
     try {
-      const response = await axios.get(`https://api.spotify.com/v1/tracks/${id}`,{
-        headers:{
-                Authorization:"Bearer "+token
-        }
-      });
-      let data:TrackType={
-        id:'',
-        img:'',
-        name:'',
-        duration:0,
-        playlist_id:''
-      };
-      data.name=response.data.name;
-      data.id=response.data.id;
-      data.duration=response.data.duration_ms;
-      data.img=response.data.album.images[0].url;
-      dispatch(setCurrentTrack(data));
-      await axios.put("https://api.spotify.com/v1/me/player/play",{
-        "uris": [`spotify:track:${data.id}`],
-        "position_ms": 0
-    },{
-        params:{
-          device_id:device_id
+      const response = await axios.get(`https://api.spotify.com/v1/tracks/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        headers:{
-          Authorization:`Bearer ${token}`
-        }
       });
+
+      const data: TrackType = {
+        id: response.data.id,
+        name: response.data.name,
+        duration: response.data.duration_ms,
+        img: response.data.album?.images?.[0]?.url ?? "",
+      };
+
+      dispatch(setCurrentTrack(data));
+
+      await axios.put(
+        "https://api.spotify.com/v1/me/player/play",
+        {
+          uris: [`spotify:track:${data.id}`],
+          position_ms: 0,
+        },
+        {
+          params: {
+            device_id: device_id,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       ChangeVolume(100);
       dispatch(setPlaying(true));
-
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.error("Error playing track:", error?.response?.data || error.message);
     }
-}
-return {PlayMusic};
-}
+  };
+
+  return { PlayMusic };
+};

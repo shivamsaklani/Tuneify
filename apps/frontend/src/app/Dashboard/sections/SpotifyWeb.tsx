@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, } from 'react';
 import { MusicPlayer } from './MusicPlayer';
 import { useDispatch } from 'react-redux';
 import { setDevice, setPlayerReady } from '@/app/redux/features/SpotifyPlayer';
@@ -33,7 +33,7 @@ const SpotifyPlayer = ({ token }: { token: string }) => {
           console.log('Player ready with device ID:', device_id);
           try {
             const TransferPlayBack = async()=>{ 
-              const response=await axios.put("https://api.spotify.com/v1/me/player",{
+              await axios.put("https://api.spotify.com/v1/me/player",{
                 device_ids:[device_id],
                 play:true
               },{
@@ -64,7 +64,7 @@ const SpotifyPlayer = ({ token }: { token: string }) => {
         console.log('Disconnected Spotify player');
       }
     };
-  }, [token,dispatch]);
+  }, [token,dispatch,LocalPlayerRef]);
 
   return (
     <div >

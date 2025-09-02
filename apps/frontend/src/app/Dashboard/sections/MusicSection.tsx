@@ -1,5 +1,5 @@
 import {useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/app/redux/store";
 import { TrackItemType } from "@/types/GlobalTypes";
 import { PlaylistSection } from "@/app/components/PlayListsection";
@@ -11,7 +11,6 @@ export const MusicSection = () => {
   const [img, setImg] = useState<string | null>(null);
   const token = useSelector((state: RootState) => state.auth.token);
   const user = useSelector((state: RootState) => state.userInfo);
-  // const dispatch = useDispatch();
   
 
   useEffect(() => {
@@ -23,9 +22,13 @@ export const MusicSection = () => {
           },
         });
         setImg(response.data.images[0].url);
-        const newTrack: TrackItemType[] = response.data.tracks.items.map((item: any) => {
+        const newTrack: TrackItemType[] = response.data.tracks.items.map((item:any) => {
           const track = item.track;
           const album = track.album;
+          const addedAt = new Date(item.added_at);
+          const formattedDate = `${addedAt.getDate().toString().padStart(2, '0')}-${(addedAt.getMonth() + 1)
+            .toString()
+            .padStart(2, '0')}-${addedAt.getFullYear()}`;
           return {
             img: album.images[0].url,
             id: track.id,
@@ -36,7 +39,7 @@ export const MusicSection = () => {
               name: album.name,
             },
             duration: track.duration_ms,
-            date: item.added_at,
+            date: formattedDate,
             playlist: item.uri,
           };
         });

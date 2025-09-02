@@ -14,7 +14,6 @@ import { setLoading } from "@/app/redux/features/Loading";
 export const Sidebar=()=>{
   const dispatch = useDispatch();
   const AllPlaylist: PlaylistItem[] = useSelector((state: RootState) => state.userPlaylist.playlist);
-  const SelectedPlaylist = useSelector((state:RootState)=>state.userPlaylist.selectedplaylist);
   const token = useSelector((state:RootState)=> state.auth.token);
   const CurrentPlayList = (name:string,id:string)=>{
     dispatch(selectplaylist({name:name,id:id}));
@@ -73,7 +72,7 @@ export const Sidebar=()=>{
       <PlayListItems>
           <div className="flex flex-col  space-y-3">
             {AllPlaylist.map((item, index) => (
-              <Items selected onclick={()=>CurrentPlayList(item.name,item.id)} id={item.id} key={index} title={item.name} />
+              <Items selected onclick={()=>CurrentPlayList(item.name,item.id)} src={item.images[0].url} id={item.id} key={index} title={item.name} />
             ))}
           </div>
       </PlayListItems>

@@ -35,7 +35,7 @@ export const CameraDashboard = () => {
       stopCamera();
       clearDetection();
     };
-  }, []);
+  },[]);
 
   const startCamera = async () => {
     try {
